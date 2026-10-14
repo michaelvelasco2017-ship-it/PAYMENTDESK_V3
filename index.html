@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>N&D Club Payment Desk V3</title>
+<style>
+:root{--bg:#f3f5f9;--panel:#fff;--text:#18202c;--muted:#687386;--line:#dce2eb;--accent:#e50914;--accent2:#b20710;--good:#138a54;--warn:#b7791f;--bad:#c53030;--shadow:0 8px 28px rgba(20,30,50,.08)}
+[data-theme="dark"]{--bg:#11151c;--panel:#1b222d;--text:#eef2f7;--muted:#a5b0c0;--line:#303b4b;--accent:#ff3b45;--accent2:#e50914;--good:#3bd18b;--warn:#f2c66d;--bad:#ff7777;--shadow:0 8px 28px rgba(0,0,0,.2)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{background:linear-gradient(120deg,#171717,#3a1013);color:#fff;padding:24px max(18px,calc((100% - 1200px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}header h1{margin:0;font-size:clamp(22px,3vw,32px);letter-spacing:.2px}header p{margin:5px 0 0;color:#ddd}main{max-width:1200px;margin:22px auto;padding:0 16px 40px}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:650;cursor:pointer}.btn.primary{background:var(--accent);border-color:var(--accent);color:white}.btn.danger{color:var(--bad)}.btn:disabled{opacity:.45;cursor:not-allowed}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}.tab{padding:10px 15px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);cursor:pointer;font-weight:700}.tab.active{background:var(--text);color:var(--bg);border-color:var(--text)}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}.panel h2{margin:0 0 15px;font-size:20px}.panel h3{margin:18px 0 10px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.field{grid-column:span 4;min-width:0}.field.wide{grid-column:span 6}.field.full{grid-column:1/-1}label{display:block;font-weight:700;margin-bottom:6px}input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--text);font:inherit}input[type=checkbox]{width:auto}.hint{font-size:13px;color:var(--muted);margin-top:5px}.inline{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.inline input[type=number]{max-width:170px}.summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}.stat{border:1px solid var(--line);border-radius:13px;padding:15px;background:var(--bg)}.stat span{display:block;color:var(--muted);font-size:13px}.stat strong{display:block;font-size:clamp(19px,2.4vw,27px);margin-top:5px;overflow-wrap:anywhere}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}th{background:var(--bg);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}tr:last-child td{border-bottom:0}td input,td select{min-width:100px;padding:8px}td .name-input{min-width:180px}.pill{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800}.pill.paid{background:#d8f6e7;color:#12633e}.pill.partial{background:#fff0c2;color:#7a5200}.pill.unpaid{background:#ffe0e0;color:#8c1d1d}[data-theme=dark] .pill.paid{background:#174b35;color:#a7f3ce}[data-theme=dark] .pill.partial{background:#59451b;color:#ffe19a}[data-theme=dark] .pill.unpaid{background:#5b272a;color:#ffc1c1}.muted{color:var(--muted)}.right{text-align:right}.empty{padding:26px;text-align:center;color:var(--muted)}.footer-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.notice{border-left:4px solid var(--accent);padding:10px 13px;background:var(--bg);border-radius:6px;color:var(--muted);margin:10px 0 15px}.hidden{display:none!important}.negative{color:var(--bad)}.positive{color:var(--good)}.session-title{font-weight:800;font-size:17px}@media(max-width:760px){.field,.field.wide{grid-column:1/-1}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}header{padding:20px 16px}.panel{padding:15px}main{margin-top:14px}}@media print{body{background:#fff;color:#000}header{background:#fff;color:#000;padding:0 0 16px}header p{color:#333}main{max-width:none;margin:0;padding:0}.top-actions,.tabs,.no-print,.footer-actions,.remove-player{display:none!important}.panel{box-shadow:none;border:1px solid #bbb;break-inside:avoid;background:#fff;color:#000}.stat{background:#fff}input,select,textarea{border:0;padding:0;background:#fff;color:#000}table{min-width:0}th,td{padding:7px 5px;color:#000}.table-wrap{overflow:visible}.muted,.hint{color:#444}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>NETFLICKS &amp; DINKS <span style="color:#ff444b">PAYMENT DESK</span></h1><p>Club session cost sharing &amp; payment tracker · V3</p></div>
+  <div class="top-actions"><button class="btn" id="themeBtn">🌙 Dark theme</button><button class="btn" id="exportBtn">Export CSV</button><button class="btn" id="printBtn">Print</button></div>
+</header>
+<main>
+  <div class="tabs no-print" role="tablist">
+    <button class="tab active" data-tab="setup">1 · Session Setup</button>
+    <button class="tab" data-tab="players">2 · Add Players</button>
+    <button class="tab" data-tab="payments">3 · Payment Desk</button>
+    <button class="tab" data-tab="summary">4 · Summary</button>
+  </div>
+  <section id="setup" class="page">
+    <div class="panel">
+      <h2>Session Setup</h2>
+      <div class="grid">
+        <div class="field wide"><label for="sessionName">Session name</label><input id="sessionName" placeholder="e.g. N&amp;D Open Play"></div>
+        <div class="field wide"><label for="sessionDate">Session date</label><input id="sessionDate" type="date"></div>
+        <div class="field"><label for="totalCost">Total session cost (₱)</label><input id="totalCost" type="number" min="0" step=".01" value="0"></div>
+        <div class="field"><label for="guestFee">Fixed non-member fee (₱)</label><input id="guestFee" type="number" min="0" step=".01" value="150"></div>
+      </div>
+      <div class="notice">Shared cost per player = total session cost ÷ all players. Members pay the shared cost. Non-members pay the higher of the shared cost or the fixed guest fee. Any guest amount above shared cost contributes to club surplus.</div>
+      <div class="summary-grid">
+        <div class="stat"><span>Players entered</span><strong id="setupCount">0</strong></div>
+        <div class="stat"><span>Shared cost per player</span><strong id="sharedCost">₱0.00</strong></div>
+        <div class="stat"><span>Member fee</span><strong id="memberFee">₱0.00</strong></div>
+        <div class="stat"><span>Non-member fee</span><strong id="nonmemberFee">₱150.00</strong></div>
+      </div>
+      <div class="footer-actions no-print"><button class="btn primary" data-goto="players">Continue to Add Players →</button><button class="btn" id="newSessionBtn">New / Clear Session</button></div>
+    </div>
+  </section>
+  <section id="players" class="page hidden">
+    <div class="panel">
+      <h2>Add Players</h2>
+      <p class="muted">Enter each player and choose Member or Non-member. Payment details are recorded on the Payment Desk tab.</p>
+      <div class="grid">
+        <div class="field wide"><label for="playerName">Player name</label><input id="playerName" placeholder="Enter player name"></div>
+        <div class="field"><label for="playerType">Player type</label><select id="playerType"><option value="Member">Member</option><option value="Non-member">Non-member</option></select></div>
+        <div class="field full"><button class="btn primary" id="addPlayerBtn">＋ Add Player</button></div>
+      </div>
+      <div class="summary-grid">
+        <div class="stat"><span>Total players</span><strong id="playerCount">0</strong></div>
+        <div class="stat"><span>Members</span><strong id="memberCount">0</strong></div>
+        <div class="stat"><span>Non-members</span><strong id="guestCount">0</strong></div>
+        <div class="stat"><span>Expected collection</span><strong id="playerExpected">₱0.00</strong></div>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>#</th><th>Player name</th><th>Type</th><th>Amount due</th><th class="no-print">Action</th></tr></thead><tbody id="playersBody"></tbody></table><div id="playersEmpty" class="empty">No players yet. Add players above.</div></div>
+      <div class="footer-actions no-print"><button class="btn" data-goto="setup">← Back to Setup</button><button class="btn primary" data-goto="payments">Go to Payment Desk →</button></div>
+    </div>
+  </section>
+  <section id="payments" class="page hidden">
+    <div class="panel">
+      <h2>Payment Desk</h2>
+      <p class="muted">Record how much each player has paid so far. Status and balance are calculated automatically. Amounts received are preserved when the session's player count or costs change.</p>
+      <div class="summary-grid">
+        <div class="stat"><span>Expected collection</span><strong id="payExpected">₱0.00</strong></div>
+        <div class="stat"><span>Received</span><strong id="payReceived">₱0.00</strong></div>
+        <div class="stat"><span>Outstanding balance</span><strong id="payOutstanding">₱0.00</strong></div>
+        <div class="stat"><span>Fully paid</span><strong id="paidCount">0 / 0</strong></div>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>#</th><th>Player</th><th>Type</th><th>Amount due</th><th>Amount received</th><th>Balance</th><th>Status</th><th>Method</th><th>Notes (optional)</th></tr></thead><tbody id="paymentsBody"></tbody></table><div id="paymentsEmpty" class="empty">Add players first to start recording payments.</div></div>
+      <div class="footer-actions no-print"><button class="btn" data-goto="players">← Edit Players</button><button class="btn primary" data-goto="summary">View Summary →</button></div>
+    </div>
+  </section>
+  <section id="summary" class="page hidden">
+    <div class="panel">
+      <div class="session-title" id="summarySession">Session Summary</div><p class="muted" id="summaryMeta">No session details yet</p>
+      <h2>Collection Summary</h2>
+      <div class="summary-grid">
+        <div class="stat"><span>Expected collection</span><strong id="sumExpected">₱0.00</strong></div>
+        <div class="stat"><span>Total received</span><strong id="sumReceived">₱0.00</strong></div>
+        <div class="stat"><span>Outstanding balance</span><strong id="sumOutstanding">₱0.00</strong></div>
+        <div class="stat"><span>Club surplus / shortfall</span><strong id="sumSurplus">₱0.00</strong></div>
+      </div>
+      <div class="summary-grid">
+        <div class="stat"><span>Session cost</span><strong id="sumCost">₱0.00</strong></div>
+        <div class="stat"><span>Players</span><strong id="sumPlayers">0</strong></div>
+        <div class="stat"><span>Fully paid</span><strong id="sumPaid">0</strong></div>
+        <div class="stat"><span>Partial / unpaid</span><strong id="sumDue">0</strong></div>
+      </div>
+      <p class="hint">Club surplus/shortfall = expected collection − total session cost. Outstanding payments are included in expected collection, not in cash already received.</p>
+      <h3>Player payment breakdown</h3>
+      <div class="table-wrap"><table><thead><tr><th>#</th><th>Player</th><th>Type</th><th>Due</th><th>Received</th><th>Balance</th><th>Status</th><th>Method</th><th>Notes</th></tr></thead><tbody id="summaryBody"></tbody></table><div id="summaryEmpty" class="empty">No players to summarize yet.</div></div>
+      <div class="footer-actions no-print"><button class="btn" data-goto="payments">← Back to Payment Desk</button><button class="btn primary" id="summaryExportBtn">Export CSV</button><button class="btn" id="summaryPrintBtn">Print Summary</button></div>
+    </div>
+  </section>
+  <p class="hint" style="text-align:center">🔒 Data is saved in this browser on this device. Export CSV regularly as a backup. Clearing browser data may remove saved sessions.</p>
+</main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const money = n => '₱' + (Number(n)||0).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const num = v => Math.max(0, Number(v)||0);
+  const today = new Date(); const localDate = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  let state = {sessionName:'',sessionDate:localDate,totalCost:0,guestFee:150,players:[],theme:'light'};
+  let activeTab = 'setup';
+  function dueFor(p, shared) { return p.type === 'Non-member' ? Math.max(shared, num(state.guestFee)) : shared; }
+  function calc() {
+    const count = state.players.length;
+    const shared = count ? num(state.totalCost)/count : 0;
+    const rows = state.players.map(p => {
+      const due = dueFor(p, shared), received = num(p.received), balance = Math.max(0,due-received);
+      const status = received <= 0 ? 'Unpaid' : received < due ? 'Partial' : 'Fully paid';
+      return {...p,due,received,balance,status};
+    });
+    const expected = rows.reduce((s,p)=>s+p.due,0), received = rows.reduce((s,p)=>s+Math.min(p.received,p.due),0);
+    const outstanding = rows.reduce((s,p)=>s+p.balance,0);
+    const paid = rows.filter(p=>p.status==='Fully paid').length;
+    const partial = rows.filter(p=>p.status!=='Fully paid').length;
+    return {count,shared,rows,expected,received,outstanding,paid,partial,surplus:expected-num(state.totalCost)};
+  }
+  function save() { try { localStorage.setItem('ndPaymentDeskV3',JSON.stringify(state)); } catch(e) {} }
+  function load() {
+    try { const s=JSON.parse(localStorage.getItem('ndPaymentDeskV3')||'null'); if(s && Array.isArray(s.players)) state={...state,...s}; } catch(e) {}
+    $('sessionName').value=state.sessionName; $('sessionDate').value=state.sessionDate||localDate;
+    $('totalCost').value=state.totalCost; $('guestFee').value=state.guestFee;
+    document.documentElement.dataset.theme=state.theme||'light'; updateThemeButton();
+  }
+  function escapeHtml(v) { return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function statusPill(status) { const cls=status==='Fully paid'?'paid':status==='Partial'?'partial':'unpaid'; return `<span class="pill ${cls}">${status}</span>`; }
+  function render() {
+    const c=calc();
+    $('setupCount').textContent=c.count; $('sharedCost').textContent=money(c.shared); $('memberFee').textContent=money(c.shared); $('nonmemberFee').textContent=money(Math.max(c.shared,num(state.guestFee)));
+    $('playerCount').textContent=c.count; $('memberCount').textContent=state.players.filter(p=>p.type==='Member').length; $('guestCount').textContent=state.players.filter(p=>p.type==='Non-member').length; $('playerExpected').textContent=money(c.expected);
+    $('payExpected').textContent=money(c.expected); $('payReceived').textContent=money(c.received); $('payOutstanding').textContent=money(c.outstanding); $('paidCount').textContent=`${c.paid} / ${c.count}`;
+    $('sumExpected').textContent=money(c.expected); $('sumReceived').textContent=money(c.received); $('sumOutstanding').textContent=money(c.outstanding); $('sumSurplus').textContent=money(c.surplus); $('sumSurplus').className=c.surplus<0?'negative':c.surplus>0?'positive':''; $('sumCost').textContent=money(state.totalCost); $('sumPlayers').textContent=c.count; $('sumPaid').textContent=c.paid; $('sumDue').textContent=c.partial;
+    $('summarySession').textContent=state.sessionName.trim()||'Session Summary'; $('summaryMeta').textContent=state.sessionDate?new Date(state.sessionDate+'T12:00:00').toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric'}):'No session date selected';
+    $('playersBody').innerHTML=c.rows.map((p,i)=>`<tr><td>${i+1}</td><td><input class="name-input" aria-label="Player name" data-player="${p.id}" data-field="name" value="${escapeHtml(p.name)}"></td><td><select aria-label="Player type" data-player="${p.id}" data-field="type"><option ${p.type==='Member'?'selected':''}>Member</option><option ${p.type==='Non-member'?'selected':''}>Non-member</option></select></td><td>${money(p.due)}</td><td class="no-print"><button class="btn danger remove-player" data-remove="${p.id}">Remove</button></td></tr>`).join('');
+    $('playersEmpty').classList.toggle('hidden',c.count>0);
+    $('paymentsBody').innerHTML=c.rows.map((p,i)=>`<tr><td>${i+1}</td><td>${escapeHtml(p.name)}</td><td>${p.type}</td><td>${money(p.due)}</td><td><input aria-label="Amount received for ${escapeHtml(p.name)}" type="number" min="0" step=".01" data-player="${p.id}" data-field="received" value="${p.received}"></td><td>${money(p.balance)}</td><td>${statusPill(p.status)}</td><td><select aria-label="Payment method for ${escapeHtml(p.name)}" data-player="${p.id}" data-field="method"><option value="">—</option><option ${p.method==='Cash'?'selected':''}>Cash</option><option ${p.method==='GCash'?'selected':''}>GCash</option><option ${p.method==='Other'?'selected':''}>Other</option></select></td><td><input aria-label="Payment notes for ${escapeHtml(p.name)}" data-player="${p.id}" data-field="notes" value="${escapeHtml(p.notes||'')}" placeholder="Optional note"></td></tr>`).join('');
+    $('paymentsEmpty').classList.toggle('hidden',c.count>0);
+    $('summaryBody').innerHTML=c.rows.map((p,i)=>`<tr><td>${i+1}</td><td>${escapeHtml(p.name)}</td><td>${p.type}</td><td>${money(p.due)}</td><td>${money(p.received)}</td><td>${money(p.balance)}</td><td>${statusPill(p.status)}</td><td>${escapeHtml(p.method||'—')}</td><td>${escapeHtml(p.notes||'')}</td></tr>`).join('');
+    $('summaryEmpty').classList.toggle('hidden',c.count>0);
+    document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===activeTab));
+    document.querySelectorAll('.page').forEach(el=>el.classList.toggle('hidden',el.id!==activeTab));
+    save();
+  }
+  function updateThemeButton(){ $('themeBtn').textContent=state.theme==='dark'?'☀️ Light theme':'🌙 Dark theme'; }
+  function go(tab){activeTab=tab;render();window.scrollTo({top:0,behavior:'smooth'});}
+  function csvCell(v){return '"'+String(v??'').replace(/"/g,'""')+'"';}
+  function exportCSV(){
+    const c=calc(); const rows=[['Session',state.sessionName],['Date',state.sessionDate],['Total session cost',num(state.totalCost)],['Fixed non-member fee',num(state.guestFee)],[],['Player','Type','Amount Due','Amount Received','Balance','Status','Payment Method','Notes']];
+    c.rows.forEach(p=>rows.push([p.name,p.type,p.due,p.received,p.balance,p.status,p.method||'',p.notes||'']));
+    rows.push([],['Expected collection',c.expected],['Total received',c.received],['Outstanding balance',c.outstanding],['Club surplus/shortfall',c.surplus]);
+    const csv='\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+    const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`ND_Payment_Desk_${state.sessionDate||'session'}.csv`; document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+  }
+  function newSession(){
+    if(!confirm('Start a new session? This clears the current session and player payment records from this browser. Export CSV first if you need a backup.'))return;
+    state={sessionName:'',sessionDate:localDate,totalCost:0,guestFee:150,players:[],theme:state.theme||'light'};
+    $('sessionName').value='';$('sessionDate').value=localDate;$('totalCost').value=0;$('guestFee').value=150;go('setup');
+  }
+  $('sessionName').addEventListener('input',e=>{state.sessionName=e.target.value;render();});
+  $('sessionDate').addEventListener('change',e=>{state.sessionDate=e.target.value;render();});
+  $('totalCost').addEventListener('input',e=>{state.totalCost=num(e.target.value);render();});
+  $('guestFee').addEventListener('input',e=>{state.guestFee=num(e.target.value);render();});
+  $('addPlayerBtn').addEventListener('click',()=>{
+    const name=$('playerName').value.trim(); if(!name){alert('Please enter a player name.');$('playerName').focus();return;}
+    state.players.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),name,type:$('playerType').value,received:0,method:'',notes:''});
+    $('playerName').value='';render();$('playerName').focus();
+  });
+  $('playerName').addEventListener('keydown',e=>{if(e.key==='Enter')$('addPlayerBtn').click();});
+  document.addEventListener('change',e=>{
+    const el=e.target, id=el.dataset.player, field=el.dataset.field; if(!id||!field)return;
+    const p=state.players.find(x=>x.id===id);if(!p)return;
+    if(field==='name')p.name=el.value;
+    if(field==='type')p.type=el.value;
+    if(field==='received')p.received=num(el.value);
+    if(field==='method')p.method=el.value;
+    if(field==='notes')p.notes=el.value;
+    render();
+  });
+  document.addEventListener('click',e=>{
+    const rem=e.target.closest('[data-remove]');if(rem){const p=state.players.find(x=>x.id===rem.dataset.remove);if(confirm(`Remove ${p?.name||'this player'}? Their payment record will be removed.`)){state.players=state.players.filter(x=>x.id!==rem.dataset.remove);render();}return;}
+    const tab=e.target.closest('[data-tab]');if(tab){go(tab.dataset.tab);return;}
+    const next=e.target.closest('[data-goto]');if(next){go(next.dataset.goto);}
+  });
+  $('themeBtn').addEventListener('click',()=>{state.theme=state.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=state.theme;updateThemeButton();save();});
+  $('exportBtn').addEventListener('click',exportCSV);$('summaryExportBtn').addEventListener('click',exportCSV);
+  $('printBtn').addEventListener('click',()=>window.print());$('summaryPrintBtn').addEventListener('click',()=>window.print());
+  $('newSessionBtn').addEventListener('click',newSession);
+  load();render();
+})();
+</script>
+</body>
+</html>
